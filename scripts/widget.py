@@ -24,7 +24,7 @@ DAEMON = os.environ.get("KINDLEDESK_URL", "http://127.0.0.1:8000").rstrip("/")
 DEFAULT_NOTES_VAULT = Path(
     os.environ.get("KINDLEDESK_NOTES_VAULT")
     or os.environ.get("OBSIDIAN_VAULT")
-    or r"D:\大学\note"
+    or Path.home() / "Documents" / "Obsidian"
 )
 
 # State file to avoid immediately repeating the same reflection question.

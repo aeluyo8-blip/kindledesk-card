@@ -1,0 +1,70 @@
+{
+  "items": [
+    {
+      "name": "KindleDesk",
+      "priority": 10,
+      "items": [
+        {
+          "name": "Start display (PULL)",
+          "priority": 1,
+          "action": "/mnt/us/extensions/kindledesk/start_loop.sh",
+          "exitmenu": true
+        },
+        {
+          "name": "Stop display",
+          "priority": 2,
+          "action": "/mnt/us/extensions/kindledesk/stop_loop.sh",
+          "exitmenu": true
+        },
+        {
+          "name": "Start push (instant card)",
+          "priority": 3,
+          "action": "/mnt/us/extensions/kindledesk/start_push.sh",
+          "exitmenu": true
+        },
+        {
+          "name": "Stop push",
+          "priority": 4,
+          "action": "/mnt/us/extensions/kindledesk/stop_push.sh",
+          "exitmenu": true
+        },
+        {
+          "name": "Setup & tools",
+          "priority": 5,
+          "items": [
+            {
+              "name": "Set / show PC IP",
+              "priority": 1,
+              "action": "/mnt/us/extensions/kindledesk/set_pc.sh",
+              "exitmenu": true
+            },
+            {
+              "name": "Fix screensaver",
+              "priority": 2,
+              "action": "/mnt/us/extensions/kindledesk/fix_screensaver.sh",
+              "exitmenu": true
+            },
+            {
+              "name": "Enable boot autostart",
+              "priority": 3,
+              "action": "/mnt/us/extensions/kindledesk/boot_install.sh",
+              "exitmenu": true
+            },
+            {
+              "name": "Enable SSH (WiFi)",
+              "priority": 4,
+              "action": "/mnt/us/extensions/kindledesk/enable_ssh.sh",
+              "exitmenu": true
+            },
+            {
+              "name": "Restart framework",
+              "priority": 5,
+              "action": "/mnt/us/extensions/kindledesk/restart_framework.sh",
+              "exitmenu": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,18 +1,24 @@
 ---
 name: kindledesk-card
-description: 为 KindleDesk 的 600×800 Kindle 墨水屏选择并推送 widget。用户提到 Kindle 卡片、墨水屏副屏、桌面卡片、待办、专注任务、日程、消息简报或要求预览/推送时使用。默认只校验/输出 payload，只有用户明确说"推送、发送到 Kindle、现在显示"时才 POST /widget。
-trigger_keywords:
-  - Kindle 卡片
-  - 墨水屏
-  - 副屏
-  - 桌面卡片
-  - 待办卡片
-  - 专注任务
-  - 推送卡片
-  - 发送到 Kindle
-  - 现在显示
-  - 推送到 Kindle
-  - widget 卡片
+description: 为 KindleDesk 的 600×800 Kindle 墨水屏完成首次接入、连接排障，以及选择和推送 widget。用户提到 KindleDesk 安装配置、Kindle 卡片、墨水屏副屏、daemon 连不上、待办、专注任务、日程、消息简报或要求预览/推送时使用。默认只校验/输出 payload，只有用户明确说"推送、发送到 Kindle、现在显示"时才 POST /widget。
+metadata:
+  trigger_keywords:
+    - Kindle 卡片
+    - 墨水屏
+    - 副屏
+    - 桌面卡片
+    - 待办卡片
+    - 专注任务
+    - 推送卡片
+    - 发送到 Kindle
+    - 现在显示
+    - 推送到 Kindle
+    - widget 卡片
+    - KindleDesk 安装
+    - 配置 KindleDesk
+    - KindleDesk 连不上
+    - daemon 连不上
+    - 第一次配置 Kindle
 allowed-tools:
   - Bash
   - Read
@@ -24,6 +30,12 @@ allowed-tools:
 KindleDesk 是一套 Widget 系统，把越狱 Kindle 变成 AI 驱动的墨水屏副屏。你说"显示今天的天气和待办"，Agent 选 type + slot + data，dry-run 校验，确认后推送到 Kindle。
 
 PC daemon 把 1-4 个 widget 按 2-1-1 网格组合成一张 600×800 的灰阶图片，再通过 Wi-Fi 推送到 Kindle 的 `/dev/fb0`。
+
+## 首次配置与连接排障
+
+如果用户是在安装 KindleDesk、配置越狱后的 Kindle，或 daemon/Kindle 连接失败，先执行 [首次接入与连接排障](references/onboarding.md)，不要直接进入 widget 编排。
+
+该流程按顺序确认主项目、daemon、KUAL 扩展、KOReader/fbink、PC IP 和 PULL 日志。只有端到端链路就绪后才回到本页继续预览或推送。
 
 ## 布局
 
@@ -163,7 +175,7 @@ middle    = focus      bottom    = todo
 |---|---|---|
 | `KINDLEDESK_URL` | `http://127.0.0.1:8000` | daemon 地址 |
 | `KINDLEDESK_SKILL_ROOT` | 脚本自动检测 | Skill 安装目录 |
-| `KINDLEDESK_NOTES_VAULT` | `D:\大学\note` | Obsidian vault 路径（reflection --from-notes 用） |
+| `KINDLEDESK_NOTES_VAULT` | `~/Documents/Obsidian` | Obsidian vault 路径（reflection --from-notes 用） |
 | `OBSIDIAN_VAULT` | — | 与上一条等效，兼容 Obsidian 用户习惯 |
 
 ### 命令示例
@@ -220,7 +232,7 @@ python $KINDLEDESK_SKILL_ROOT/scripts/widget.py reflection \
 | 失败场景 | 症状 | 处理 |
 |---|---|---|
 | 校验失败 | widget.py 返回 `validation error: ...` | 检查 type/slot/data 是否符合上表，修正后重试 |
-| daemon 不可达 | `KindleDesk daemon unreachable: ...` | 启动 `daemon/serve.py`（在 kindledesk 项目目录下），等 2 秒后重试 |
+| daemon 不可达 | `KindleDesk daemon unreachable: ...` | 转到 [首次接入与连接排障](references/onboarding.md)，判断是 daemon、KUAL、PC IP 还是 PULL 链路缺失 |
 | slot 被占用 | `slot 'xxx' is occupied. Use --force to overwrite.` | 告知用户目标 slot 已被占用，问是否覆盖；确认后加 `--force` |
 | daemon 返回 400 | `400` + 具体字段名 | daemon 的 schema 校验失败，读返回的 error message，修正 data 字段后重试 |
 | 推送后 Kindle 无变化 | 状态码 200 但屏幕没变 | daemon 内部有 1.5s 去抖；等 30s 仍无变化，检查 Kindle 端 `fetch_loop` 是否在运行 |
@@ -228,9 +240,9 @@ python $KINDLEDESK_SKILL_ROOT/scripts/widget.py reflection \
 
 ## 反例（什么不是这个 Skill 的活）
 
-- "Kindle 怎么越狱？" → 这是技术问答，用知识库回答，不用卡片
+- "Kindle 怎么越狱？" → 可以解释风险并指向型号/固件对应指南；若用户要配置 KindleDesk，越狱完成后转入 onboarding
 - "帮我写一篇论文" → 这是写作任务，不是卡片操作
 - "今天天气怎么样？" → 这是查询，不是推送；如果用户接着说"推到 Kindle"才触发
 - "给我推荐一本书" → 这是推荐，和卡片无关
-- "Kindle 屏幕不亮了怎么办" → 这是排障，不是卡片操作
+- "Kindle 屏幕不亮了怎么办" → 普通硬件故障不是本 Skill 的活；若明确是 KindleDesk 显示链路不更新，则转入 onboarding
 - "打开/关闭 Kindle 的 Wi-Fi" → 这是设备管理，用 KUAL 菜单，不用卡片

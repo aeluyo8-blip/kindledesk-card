@@ -1,4 +1,4 @@
 interface:
   display_name: "KindleDesk Card"
-  short_description: "Design, preview, and explicitly push Kindle cards"
-  default_prompt: "Use $kindledesk-card to design and preview a Kindle card without pushing it."
+  short_description: "完成 Kindle 副屏首次配置、连接排障，并安全预览和推送卡片"
+  default_prompt: "Use $kindledesk-card to configure my KindleDesk connection and preview a card without pushing it."

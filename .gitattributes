@@ -1,0 +1,6 @@
+# Force LF for scripts that run on Kindle/Linux (CRLF breaks bash)
+*.sh text eol=lf
+*.py text eol=lf
+*.xml text eol=lf
+*.json text eol=lf
+*.lua text eol=lf

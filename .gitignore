@@ -1,5 +1,9 @@
 # Runtime state
 .last_reflection.json
+*.log
+kindle_ip.txt
+output/
+.ssh_kindle/
 
 # Python
 __pycache__/

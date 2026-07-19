@@ -4,12 +4,14 @@ Usage: PYTHONUTF8=1 python generate_demo.py
 Output: examples/demo_*.png
 """
 import os, sys
-sys.path.insert(0, r"D:\Workspace\kindledesk\daemon")
-
-import serve
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent / "examples"
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "daemon"))
+
+import serve
+
+OUT = ROOT / "examples"
 OUT.mkdir(parents=True, exist_ok=True)
 
 # ── Demo 1: Default layout (weather + ai-status + focus + todo) ──
