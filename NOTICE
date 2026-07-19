@@ -1,0 +1,19 @@
+KindleDesk Card attribution notice
+==================================
+
+This project is based on and adapts work from:
+
+  ai-desk-card / m5-paper-buddy
+  Copyright (C) 2026 op7418
+  https://github.com/op7418/ai-desk-card
+  License: GNU General Public License v3.0
+
+Adapted areas include the widget slot model, Pillow server-side rendering
+pipeline, daemon HTTP API concepts, widget schemas, and Agent Skill workflow.
+
+KindleDesk-specific work includes the Kindle KUAL extension, Wi-Fi PULL
+transport, raw /dev/fb0 output, fbink refresh integration, and Kindle power and
+screensaver handling.
+
+The upstream copyright and attribution must be preserved in redistributed
+or derivative versions.

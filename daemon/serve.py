@@ -1,5 +1,8 @@
 """KindleDesk card server — ai-desk-card layout adapted to Kindle Basic 3 (600x800).
 
+Rendering and daemon concepts adapted from op7418/ai-desk-card (GPL-3.0):
+https://github.com/op7418/ai-desk-card
+
 Design (mirrors ai-desk-card v0.6 Swiss-minimalist e-ink):
   - Grid of widget slots (top-left / top-right / middle / bottom / full)
   - ONE body font size (28pt); hierarchy via bold, dividers, boxes, inverted bars

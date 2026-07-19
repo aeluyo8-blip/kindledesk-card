@@ -149,9 +149,9 @@ KUAL → KindleDesk → Start display (PULL)
 
 完成标准：连续两次拉取均成功，且屏幕方向和内容正常。
 
-## 8. 推送一个测试 widget
+## 8. 不安装 Skill，先测试 widget 链路
 
-先安装 [kindledesk-card Skill](https://github.com/aeluyo8-blip/kindledesk-card)，或直接调用 daemon：
+首次验收直接调用 daemon，不依赖 Skill：
 
 ```powershell
 $body = @{
@@ -170,7 +170,17 @@ Kindle 会在下一次拉取（最多 60 秒）后更新。
 
 完成标准：屏幕中间出现“KindleDesk 配置完成”。
 
-## 9. 可选功能
+## 9. 链路成功后安装 Skill
+
+只有前八步全部完成后，才安装日常使用的 Agent Skill：
+
+```bash
+npx skills add aeluyo8-blip/kindledesk-card -g
+```
+
+Skill 负责把自然语言转换成 widget、预览并在明确授权后推送。它不会重新越狱、安装 KUAL/KOReader 或复制 Kindle 扩展。
+
+## 10. 可选功能
 
 ### 开机自启
 

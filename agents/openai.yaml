@@ -1,4 +1,4 @@
 interface:
   display_name: "KindleDesk Card"
-  short_description: "完成 Kindle 副屏首次配置、连接排障，并安全预览和推送卡片"
-  default_prompt: "Use $kindledesk-card to configure my KindleDesk connection and preview a card without pushing it."
+  short_description: "为已配置的 Kindle 副屏安全预览、推送卡片并检查运行连接"
+  default_prompt: "Use $kindledesk-card to preview a KindleDesk card and push it only after I explicitly confirm."

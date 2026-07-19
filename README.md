@@ -3,7 +3,13 @@
 > 用自然语言告诉 Kindle 显示什么。Agent Skill 驱动的墨水屏副屏。
 
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-Compatible-blue)](https://github.com/anthropics/skills)
-[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![License](https://img.shields.io/badge/license-GPL--3.0-blue)](./LICENSE)
+
+## 来源与项目关系
+
+KindleDesk Card 基于 [op7418/ai-desk-card](https://github.com/op7418/ai-desk-card) 的工作继续开发。Widget slot 模型、Pillow 服务端渲染管线、daemon API 和 Skill 工作流均由该项目启发或改编；原项目作者为 **op7418**，采用 **GPL-3.0**。
+
+本项目新增的 Kindle 专用部分包括 KUAL 扩展、Wi-Fi PULL、`/dev/fb0` 直写、fbink 刷新、Kindle 屏保与电源管理适配。详细归属见 [NOTICE](NOTICE)。
 
 ## 你什么时候需要它？
 
@@ -28,23 +34,25 @@
 ## 快速开始
 
 ```bash
-# 1. 安装 Skill
-npx skills add aeluyo8-blip/kindledesk-card -g
-
-# 2. 首次使用先完成 Kindle 端一条龙配置
-# https://github.com/aeluyo8-blip/kindledesk-card/blob/master/SETUP.md
-
-# 3. 启动 daemon（同一个仓库）
+# 1. 下载完整项目
 git clone https://github.com/aeluyo8-blip/kindledesk-card.git
 cd kindledesk-card
-python -m pip install Pillow
-python daemon/serve.py
+python -m pip install -r requirements.txt
+```
 
-# 4. 试试 dry-run（不推送，只校验）
+接着按 [SETUP.md](SETUP.md) 完成 Kindle、KUAL、KOReader、扩展、PC IP 和首次显示验证。确认 Kindle 已能正常显示后，再安装 Skill：
+
+```bash
+# 2. 设备链路验证成功后安装 Skill
+npx skills add aeluyo8-blip/kindledesk-card -g
+
+# 3. 日常使用：先 dry-run，不推送
 python scripts/widget.py weather --slot top-left --data-stdin <<EOF
 {"location":"北京","current":{"temp":"22","feels":"20","humidity":"45","condition":"晴"}}
 EOF
 ```
+
+安装顺序刻意分为两阶段：`SETUP.md` 是一次性设备配置；`kindledesk-card` Skill 只负责之后的预览、推送和运行期连接检查。
 
 ## 触发方式
 
@@ -100,11 +108,11 @@ EOF
 
 ```
 kindledesk-card/
-├── SKILL.md                       # Agent 工作流与 onboarding 路由
+├── SKILL.md                       # 日常 widget 预览、推送与连接检查
 ├── SETUP.md                       # 越狱后配置一条龙
 ├── daemon/serve.py                # PC 渲染与 HTTP 服务
 ├── kual-extensions/kindledesk/    # Kindle 端 KUAL 扩展
-├── references/onboarding.md       # Agent 首次接入决策流程
+├── references/runtime-connection.md # daemon、IP、PULL/PUSH 排障
 ├── scripts/
 │   ├── widget.py         # 校验 + 推送脚本（dry-run / preview / push / clear）
 │   └── generate_demo.py  # 生成演示截图（假数据，无需 daemon）
@@ -118,7 +126,7 @@ kindledesk-card/
 
 ## 前置条件
 
-> Skill 负责把自然语言转成 widget 数据；同一仓库已同时包含 PC daemon、Kindle KUAL 扩展和完整安装指南，不需要再克隆第二个项目。
+> 仓库包含完整系统，但 Skill 本身只负责日常 widget 操作。越狱、KUAL、KOReader 和扩展部署由 `SETUP.md` 一次性完成，不会在每次 Skill 触发时加载或执行。
 
 ### 硬件
 
@@ -203,8 +211,8 @@ EOF
 ## 致谢
 
 - **[鲁班 (luban-skill)](https://github.com/LearnPrompt/luban-skill)** — Skill 打磨工坊，本 Skill 的 README、测试 prompt、文档结构均经鲁班五步方法论打磨（验料→访行→过尺→慢刨→回炉）。
-- **[ai-desk-card](https://github.com/op7418/ai-desk-card)** — 上游参考项目，Widget 系统的架构设计（slot 网格、widget 类型 catalog、daemon 渲染管线）来自 ai-desk-card 的实践经验。
+- **[op7418/ai-desk-card](https://github.com/op7418/ai-desk-card)** — 本项目的上游基础与主要技术来源。Widget 系统、daemon 渲染与 Skill 工作流由其启发或改编，感谢 op7418 的开源工作。
 
 ## License
 
-MIT
+[GNU General Public License v3.0](LICENSE)。本项目包含由 [op7418/ai-desk-card](https://github.com/op7418/ai-desk-card) 改编的代码，转载或衍生时必须保留原作者版权与显著署名，并遵守 GPL-3.0 的源代码开放要求。
