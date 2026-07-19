@@ -1,0 +1,107 @@
+[
+  {
+    "id": "single-weather",
+    "prompt": "显示青岛今天的天气",
+    "expect": {
+      "type": "weather",
+      "slot": "top-left",
+      "data": {
+        "location": "青岛",
+        "current": { "temp": "*", "feels": "*", "humidity": "*", "condition": "*" }
+      }
+    },
+    "note": "单 widget 天气，应选 top-left 做 glance 信息"
+  },
+  {
+    "id": "single-focus",
+    "prompt": "把'完成论文结果章节'作为当前专注任务推送到 Kindle",
+    "expect": {
+      "type": "focus",
+      "slot": "middle",
+      "data": { "task": "完成论文结果章节" }
+    },
+    "note": "单 widget 专注任务，应选 middle（最宽）"
+  },
+  {
+    "id": "multi-widget-default",
+    "prompt": "显示今天的天气、待办和专注任务",
+    "expect": {
+      "widgets": [
+        { "type": "weather", "slot": "top-left" },
+        { "type": "focus", "slot": "middle" },
+        { "type": "todo", "slot": "bottom" }
+      ]
+    },
+    "note": "多 widget 默认组合：weather top-left, focus middle, todo bottom"
+  },
+  {
+    "id": "dry-run-default",
+    "prompt": "给我看看明天要做什么的卡片",
+    "expect": {
+      "action": "dry-run",
+      "push": false
+    },
+    "note": "用户没说'推送'，默认 dry-run 只输出 payload"
+  },
+  {
+    "id": "explicit-push",
+    "prompt": "把天气推送到 Kindle 现在显示",
+    "expect": {
+      "action": "push",
+      "push": true
+    },
+    "note": "用户明确说'推送'和'现在显示'，应加 --push"
+  },
+  {
+    "id": "preview-request",
+    "prompt": "给我看看现在 Kindle 上会显示什么",
+    "expect": {
+      "action": "preview",
+      "push": false
+    },
+    "note": "用户想看效果，应 --preview，不推送"
+  },
+  {
+    "id": "not-a-card-request",
+    "prompt": "Kindle 怎么越狱？",
+    "expect": {
+      "trigger": false
+    },
+    "note": "反例：这是技术问答，不应触发卡片 Skill"
+  },
+  {
+    "id": "slot-occupied",
+    "prompt": "推送一段便签到 middle",
+    "expect": {
+      "type": "scratch",
+      "slot": "middle",
+      "action": "check_occupied"
+    },
+    "note": "如果 middle 已被占用，应提示用户而非覆盖"
+  },
+  {
+    "id": "reflection-from-notes",
+    "prompt": "从笔记里随机抽一条反思推送到 Kindle",
+    "expect": {
+      "type": "reflection",
+      "slot": "middle",
+      "from_notes": true,
+      "action": "push"
+    },
+    "note": "reflection 特殊用法：--from-notes + --push"
+  },
+  {
+    "id": "todo-completed-filter",
+    "prompt": "推一条待办，'整理图表'已完成，'写文档'还在做",
+    "expect": {
+      "type": "todo",
+      "data": {
+        "items": [
+          { "text": "整理图表", "tag": "已完成" },
+          { "text": "写文档", "tag": "today" }
+        ]
+      }
+    },
+    "note": "已完成项带 tag: '已完成'，daemon 渲染时跳过"
+  }
+]

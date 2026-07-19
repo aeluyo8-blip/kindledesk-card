@@ -1,0 +1,4 @@
+interface:
+  display_name: "KindleDesk Card"
+  short_description: "Design, preview, and explicitly push Kindle cards"
+  default_prompt: "Use $kindledesk-card to design and preview a Kindle card without pushing it."

@@ -1,0 +1,10 @@
+# Runtime state
+.last_reflection.json
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
